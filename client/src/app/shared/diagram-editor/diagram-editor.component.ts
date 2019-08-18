@@ -10,6 +10,7 @@ import {
 import {MatDialog} from '@angular/material';
 import * as go from 'gojs';
 import {DataService} from '../services/data.service';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-diagram-editor',
@@ -58,19 +59,19 @@ export class DiagramEditorComponent implements OnInit {
         this.diagram.addModelChangedListener(e => e.isTransactionFinished && this.modelChanged.emit(e));
 
         // define templates for each type of node
-        var circleTemplate =
+        const circleTemplate =
             $(go.Node, 'Auto', {},
                 new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
                 $(go.Shape, 'Circle'),
             );
 
-        var squareTemplate =
+        const squareTemplate =
             $(go.Node, 'Auto', {},
                 new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
                 $(go.Shape, 'Square'),
             );
 
-        var triangleTemplate =
+        const triangleTemplate =
             $(go.Node, 'Auto', {},
                 new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
                 $(go.Shape, 'Triangle')
@@ -107,16 +108,36 @@ export class DiagramEditorComponent implements OnInit {
     }
 
     onPublish() {
+        // TODO: Extract logic to service class
         const img = this.diagram.makeImageData({
             scale: 1,
-            background: 'AntiqueWhite',
+            background: 'White',
             type: 'image/jpeg'
         });
 
-        this.dataService.saveDiagram(img).subscribe(res => {
-            console.log(`%c SAVED on server`, 'background: #222; color: #bada55');
+        this.dataService.saveDiagram(img).subscribe((res: any) => {
+            console.log(`%c Saved on server`, 'background: #222; color: #bada55');
+
+            // TODO: extract popups to service
+            Swal.fire({
+                title: '<strong>Diagram Saved</strong>',
+                type: 'success',
+                html:
+                    'See it ' +
+                    '<a href="http://localhost:4200/viewer/' + res.id + '" target="_blank">here</a> ',
+                showCloseButton: true,
+                showCancelButton: false,
+                focusConfirm: false,
+            });
         }, err => {
             console.log(`%c Error while saving`, 'background: #222; color: #bada55');
+
+            Swal.fire({
+                title: 'Error!',
+                text: 'Publish error',
+                type: 'error',
+                showCloseButton: true,
+            });
         });
 
     }

@@ -50,7 +50,8 @@
               "src/styles.scss"
             ],
             "scripts": [
-              "node_modules/gojs/release/go-debug.js"
+              "node_modules/gojs/release/go-debug.js",
+              "node_modules/sweetalert2/dist/sweetalert2.all.js"
             ]
           },
           "configurations": {
