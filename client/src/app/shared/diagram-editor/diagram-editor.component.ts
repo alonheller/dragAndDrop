@@ -50,6 +50,8 @@ export class DiagramEditorComponent implements OnInit {
         this.diagram = new go.Diagram();
         this.diagram.initialContentAlignment = go.Spot.Center;
         this.diagram.allowDrop = true;
+        this.diagram.allowLink = true;
+        this.diagram.allowRelink = true;
         this.diagram.undoManager.isEnabled = true;
         this.diagram.addDiagramListener('ChangedSelection',
             e => {
@@ -62,19 +64,34 @@ export class DiagramEditorComponent implements OnInit {
         const circleTemplate =
             $(go.Node, 'Auto', {},
                 new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
-                $(go.Shape, 'Circle'),
+                $(go.Shape, 'Circle', {
+                    portId: '', cursor: 'pointer',  // the Shape is the port, not the whole Node
+                    // allow all kinds of links from and to this port
+                    fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+                    toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true
+                }),
             );
 
         const squareTemplate =
             $(go.Node, 'Auto', {},
                 new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
-                $(go.Shape, 'Square'),
+                $(go.Shape, 'Square', {
+                    portId: '', cursor: 'pointer',  // the Shape is the port, not the whole Node
+                    // allow all kinds of links from and to this port
+                    fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+                    toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true
+                }),
             );
 
         const triangleTemplate =
             $(go.Node, 'Auto', {},
                 new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
-                $(go.Shape, 'Triangle')
+                $(go.Shape, 'Triangle', {
+                    portId: '', cursor: 'pointer',  // the Shape is the port, not the whole Node
+                    // allow all kinds of links from and to this port
+                    fromLinkable: true, fromLinkableSelfNode: true, fromLinkableDuplicates: true,
+                    toLinkable: true, toLinkableSelfNode: true, toLinkableDuplicates: true
+                })
             );
 
         // add the templates created above to myDiagram and palette
@@ -141,4 +158,19 @@ export class DiagramEditorComponent implements OnInit {
         });
 
     }
+
+    /*load() {
+        myDiagram.model = go.Model.fromJson(document.getElementById('mySavedModel').value);
+        loadDiagramProperties();  // do this after the Model.modelData has been brought into memory
+    }
+
+    saveDiagramProperties() {
+        myDiagram.model.modelData.position = go.Point.stringify(myDiagram.position);
+    }
+
+    loadDiagramProperties(e) {
+        // set Diagram.initialPosition, not Diagram.position, to handle initialization side-effects
+        var pos = myDiagram.model.modelData.position;
+        if (pos) myDiagram.initialPosition = go.Point.parse(pos);
+    }*/
 }

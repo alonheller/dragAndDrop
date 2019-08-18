@@ -7,8 +7,10 @@ import * as go from 'gojs';
     styleUrls: ['./drawer.component.scss']
 })
 export class DrawerComponent {
+    model = new go.GraphLinksModel();
 
-    model = new go.GraphLinksModel(
+    // Mock
+    /*model = new go.GraphLinksModel(
         [
             {key: 1, category: 'circle'},
             {key: 2, category: 'square'},
@@ -18,5 +20,5 @@ export class DrawerComponent {
             {from: 1, to: 2},
             {from: 1, to: 3},
             {from: 2, to: 2}
-        ]);
+        ]);*/
 }
