@@ -1,0 +1,15 @@
+<!-- Dummy background -->
+<div class="shape"
+     [ngClass]="{
+                  'triangle': shape === shapes.Triangle,
+                  'circle': shape === shapes.Circle,
+                  'square': shape === shapes.Square}">
+</div>
+
+<!-- Draggable shape -->
+<div cdkDrag class="shape"
+     [ngClass]="{
+                  'triangle': shape === shapes.Triangle,
+                  'circle': shape === shapes.Circle,
+                  'square': shape === shapes.Square}">
+</div>
