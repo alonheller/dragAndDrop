@@ -11,7 +11,7 @@ export class DataService {
   constructor(private httpClient: HttpClient) {}
 
   getDiagram(diagramId: string): any {
-    return this.httpClient.get(`${this.host}/api/diagrams/${diagramId}`);
+    return this.httpClient.get(`${this.host}/api/diagrams/${diagramId}`, { responseType: 'blob' });
   }
 
   saveDiagram(data: any) {

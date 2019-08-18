@@ -1,12 +1,20 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import {
+    Component,
+    OnInit,
+    ViewChild,
+    ElementRef,
+    Input,
+    Output,
+    EventEmitter
+} from '@angular/core';
+import {MatDialog} from '@angular/material';
 import * as go from 'gojs';
 import {DataService} from "../services/data.service";
 
 @Component({
-  selector: 'app-diagram-editor',
-  templateUrl: './diagram-editor.component.html',
-  styleUrls: ['./diagram-editor.component.scss']
+    selector: 'app-diagram-editor',
+    templateUrl: './diagram-editor.component.html',
+    styleUrls: ['./diagram-editor.component.scss']
 })
 export class DiagramEditorComponent implements OnInit {
 
@@ -22,11 +30,16 @@ export class DiagramEditorComponent implements OnInit {
     image: any;
 
     @Input()
-    get model(): go.Model { return this.diagram.model; }
-    set model(val: go.Model) { this.diagram.model = val; }
+    get model(): go.Model {
+        return this.diagram.model;
+    }
+
+    set model(val: go.Model) {
+        this.diagram.model = val;
+    }
 
     @Output()
-    nodeSelected = new EventEmitter<go.Node|null>();
+    nodeSelected = new EventEmitter<go.Node | null>();
 
     @Output()
     modelChanged = new EventEmitter<go.ChangedEvent>();
@@ -78,9 +91,9 @@ export class DiagramEditorComponent implements OnInit {
         this.diagram.linkTemplate =
             $(go.Link,
                 // allow relinking
-                { relinkableFrom: true, relinkableTo: true },
+                {relinkableFrom: true, relinkableTo: true},
                 $(go.Shape),
-                $(go.Shape, { toArrow: "OpenTriangle" })
+                $(go.Shape, {toArrow: "OpenTriangle"})
             );
 
         this.palette = new go.Palette();
@@ -89,9 +102,9 @@ export class DiagramEditorComponent implements OnInit {
         // initialize contents of Palette
         this.palette.model.nodeDataArray =
             [
-                { category: "circle" },
-                { category: "square" },
-                { category: "triangle" },
+                {category: "circle"},
+                {category: "square"},
+                {category: "triangle"},
             ];
     }
 
@@ -107,7 +120,6 @@ export class DiagramEditorComponent implements OnInit {
             type: "image/jpeg"
         });
 
-        // this.addImage(img);
         this._dataService.saveDiagram(img).subscribe(res => {
             console.log(`%c SAVED on server`, 'background: #222; color: #bada55');
         }, err => {
@@ -116,7 +128,19 @@ export class DiagramEditorComponent implements OnInit {
 
     }
 
-    addImage(img: any) {
-        this.image = img;
+    onLoad() {
+        this._dataService.getDiagram('test').subscribe(res => {
+            const reader = new FileReader();
+
+            // This fires after the blob has been read/loaded.
+            reader.addEventListener('loadend', (e) => {
+                this.image = e.srcElement.result;
+            });
+
+            // Start reading the blob as text.
+            reader.readAsText(res);
+        }, err => {
+            console.log(`%c Error while saving`, 'background: #222; color: #bada55');
+        });
     }
 }

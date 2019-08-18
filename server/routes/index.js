@@ -10,14 +10,14 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/api/diagrams/:diagramId', function (req, res) {
-  const fileName = req.params.diagramId + '.json';
-  fs.readFile(path + fileName, (err, data) => {
+  const fileName = req.params.diagramId + '.jpeg';
+  fs.readFile(path + fileName, 'base64', (err, data) => {
     if (err) {
       res.status(500).jsonp({ error: 'File read error' });
       return;
     }
-    const deserializeData = JSON.parse(data);
-    res.send(deserializeData);
+    res.set('Content-Type', 'image/jpeg');
+    res.send('data:image/jpeg;base64,' + data);
   })
 });
 
