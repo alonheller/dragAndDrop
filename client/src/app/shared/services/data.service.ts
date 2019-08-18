@@ -15,6 +15,6 @@ export class DataService {
   }
 
   saveDiagram(data: any) {
-    return this.httpClient.post(`${this.host}/api/diagrams`, data);
+    return this.httpClient.post(`${this.host}/api/diagrams`, {image: data});
   }
 }

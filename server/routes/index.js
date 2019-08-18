@@ -22,11 +22,10 @@ router.get('/api/diagrams/:diagramId', function (req, res) {
 });
 
 router.post('/api/diagrams', function (req, res) {
-  const data = req.body;
-  const serializedData = JSON.stringify(data, null,  2);
-  const fileName = uuidv1() + ".json";
+  const base64Data = req.body.image.replace(/^data:image\/jpeg;base64,/, "");
+  const fileName = uuidv1() + ".jpeg";
 
-  fs.writeFile(path + fileName, serializedData , err => {
+  fs.writeFile(path + fileName, base64Data, 'base64', err => {
     if (err) {
       res.status(500).jsonp({ error: 'Failed to save' });
       return;

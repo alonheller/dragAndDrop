@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef, Input, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import * as go from 'gojs';
+import {DataService} from "../services/data.service";
 
 @Component({
   selector: 'app-diagram-editor',
@@ -30,7 +31,7 @@ export class DiagramEditorComponent implements OnInit {
     @Output()
     modelChanged = new EventEmitter<go.ChangedEvent>();
 
-    constructor(public dialog: MatDialog) {
+    constructor(public dialog: MatDialog, private _dataService: DataService) {
         const $ = go.GraphObject.make;
         this.diagram = new go.Diagram();
         this.diagram.initialContentAlignment = go.Spot.Center;
@@ -106,7 +107,13 @@ export class DiagramEditorComponent implements OnInit {
             type: "image/jpeg"
         });
 
-        this.addImage(img);
+        // this.addImage(img);
+        this._dataService.saveDiagram(img).subscribe(res => {
+            console.log(`%c SAVED on server`, 'background: #222; color: #bada55');
+        }, err => {
+            console.log(`%c Error while saving`, 'background: #222; color: #bada55');
+        });
+
     }
 
     addImage(img: any) {
