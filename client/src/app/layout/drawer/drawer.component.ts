@@ -10,9 +10,9 @@ export class DrawerComponent {
 
     model = new go.GraphLinksModel(
         [
-            { key: 1, text: "Triangle", color: "lightblue" },
-            { key: 2, text: "Circle", color: "orange" },
-            { key: 3, text: "Square", color: "lightgreen" }
+            { key: 1, category: "circle" },
+            { key: 2, category: "square" },
+            { key: 3, category: "triangle" },
         ],
         [
             { from: 1, to: 2 },

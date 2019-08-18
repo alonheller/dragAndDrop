@@ -41,17 +41,36 @@ export class DiagramEditorComponent implements OnInit {
             });
         this.diagram.addModelChangedListener(e => e.isTransactionFinished && this.modelChanged.emit(e));
 
-        this.diagram.nodeTemplate =
-            $(go.Node, "Auto",
-                {
-                    // click: (e, node: go.Node) => {
-                    // this.openDialog(node.data); }
-                },
+        // define templates for each type of node
+        var circleTemplate =
+            $(go.Node, "Auto", {},
                 new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
                 $(go.Shape, "Circle"),
+            );
+
+        var squareTemplate =
+            $(go.Node, "Auto", {},
+                new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
                 $(go.Shape, "Square"),
+            );
+
+        var triangleTemplate =
+            $(go.Node, "Auto", {},
+                new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
                 $(go.Shape, "Triangle")
             );
+
+        // add the templates created above to myDiagram and palette
+        this.diagram.nodeTemplateMap.add("circle", circleTemplate);
+        this.diagram.nodeTemplateMap.add("square", squareTemplate);
+        this.diagram.nodeTemplateMap.add("triangle", triangleTemplate);
+
+        /*this.diagram.nodeTemplate.add(circleTemplate);
+        this.diagram.nodeTemplate.add(squareTemplate);
+        this.diagram.nodeTemplate.add(triangleTemplate);*/
+
+        // share the template map with the Palette
+
 
         this.diagram.linkTemplate =
             $(go.Link,
@@ -67,9 +86,9 @@ export class DiagramEditorComponent implements OnInit {
         // initialize contents of Palette
         this.palette.model.nodeDataArray =
             [
-                { text: "Triangle", color: "lightblue" },
-                { text: "Circle", color: "orange" },
-                { text: "Square", color: "lightgreen" }
+                { category: "circle" },
+                { category: "square" },
+                { category: "triangle" },
             ];
     }
 
