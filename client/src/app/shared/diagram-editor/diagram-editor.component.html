@@ -1,7 +1,13 @@
 <div class="diagramsPanel">
+    <button mat-button (click)="onSave()">save</button>
     <div #paletteDiv class="paletteDiv"></div>
     <div #diagramDiv class="diagramDiv"></div>
     <!--<div>
       <button (click)="openDialog()">(should be hidden)</button>
     </div>-->
+</div>
+
+<div>
+    <div>img</div>
+    <img [src]="image" />
 </div>

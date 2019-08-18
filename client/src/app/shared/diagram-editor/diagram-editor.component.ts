@@ -18,6 +18,8 @@ export class DiagramEditorComponent implements OnInit {
     @ViewChild('paletteDiv', null)
     private paletteRef: ElementRef;
 
+    image: any;
+
     @Input()
     get model(): go.Model { return this.diagram.model; }
     set model(val: go.Model) { this.diagram.model = val; }
@@ -95,5 +97,19 @@ export class DiagramEditorComponent implements OnInit {
     ngOnInit() {
         this.diagram.div = this.diagramRef.nativeElement;
         this.palette.div = this.paletteRef.nativeElement;
+    }
+
+    onSave() {
+        const img = this.diagram.makeImageData({
+            scale: 1,
+            background: "AntiqueWhite",
+            type: "image/jpeg"
+        });
+
+        this.addImage(img);
+    }
+
+    addImage(img: any) {
+        this.image = img;
     }
 }
