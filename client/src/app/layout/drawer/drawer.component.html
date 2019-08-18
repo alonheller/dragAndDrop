@@ -1,5 +1,4 @@
 <div>
-    Click on a node to edit its text or change its color.
-    <app-diagram-editor [model]="model">
-    </app-diagram-editor>
+    <app-header [title]="'Diagram drawer'" [showButtons]="true" (publish)="diagram.onPublish()"></app-header>
+    <app-diagram-editor #diagram [model]="model"></app-diagram-editor>
 </div>

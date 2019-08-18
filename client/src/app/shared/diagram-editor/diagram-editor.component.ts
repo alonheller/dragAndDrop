@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import {MatDialog} from '@angular/material';
 import * as go from 'gojs';
-import {DataService} from "../services/data.service";
+import {DataService} from '../services/data.service';
 
 @Component({
     selector: 'app-diagram-editor',
@@ -44,13 +44,13 @@ export class DiagramEditorComponent implements OnInit {
     @Output()
     modelChanged = new EventEmitter<go.ChangedEvent>();
 
-    constructor(public dialog: MatDialog, private _dataService: DataService) {
+    constructor(public dialog: MatDialog, private dataService: DataService) {
         const $ = go.GraphObject.make;
         this.diagram = new go.Diagram();
         this.diagram.initialContentAlignment = go.Spot.Center;
         this.diagram.allowDrop = true;
         this.diagram.undoManager.isEnabled = true;
-        this.diagram.addDiagramListener("ChangedSelection",
+        this.diagram.addDiagramListener('ChangedSelection',
             e => {
                 const node = e.diagram.selection.first();
                 this.nodeSelected.emit(node instanceof go.Node ? node : null);
@@ -59,41 +59,34 @@ export class DiagramEditorComponent implements OnInit {
 
         // define templates for each type of node
         var circleTemplate =
-            $(go.Node, "Auto", {},
-                new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-                $(go.Shape, "Circle"),
+            $(go.Node, 'Auto', {},
+                new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
+                $(go.Shape, 'Circle'),
             );
 
         var squareTemplate =
-            $(go.Node, "Auto", {},
-                new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-                $(go.Shape, "Square"),
+            $(go.Node, 'Auto', {},
+                new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
+                $(go.Shape, 'Square'),
             );
 
         var triangleTemplate =
-            $(go.Node, "Auto", {},
-                new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
-                $(go.Shape, "Triangle")
+            $(go.Node, 'Auto', {},
+                new go.Binding('location', 'loc', go.Point.parse).makeTwoWay(go.Point.stringify),
+                $(go.Shape, 'Triangle')
             );
 
         // add the templates created above to myDiagram and palette
-        this.diagram.nodeTemplateMap.add("circle", circleTemplate);
-        this.diagram.nodeTemplateMap.add("square", squareTemplate);
-        this.diagram.nodeTemplateMap.add("triangle", triangleTemplate);
-
-        /*this.diagram.nodeTemplate.add(circleTemplate);
-        this.diagram.nodeTemplate.add(squareTemplate);
-        this.diagram.nodeTemplate.add(triangleTemplate);*/
-
-        // share the template map with the Palette
-
+        this.diagram.nodeTemplateMap.add('circle', circleTemplate);
+        this.diagram.nodeTemplateMap.add('square', squareTemplate);
+        this.diagram.nodeTemplateMap.add('triangle', triangleTemplate);
 
         this.diagram.linkTemplate =
             $(go.Link,
                 // allow relinking
                 {relinkableFrom: true, relinkableTo: true},
                 $(go.Shape),
-                $(go.Shape, {toArrow: "OpenTriangle"})
+                $(go.Shape, {toArrow: 'OpenTriangle'})
             );
 
         this.palette = new go.Palette();
@@ -102,9 +95,9 @@ export class DiagramEditorComponent implements OnInit {
         // initialize contents of Palette
         this.palette.model.nodeDataArray =
             [
-                {category: "circle"},
-                {category: "square"},
-                {category: "triangle"},
+                {category: 'circle'},
+                {category: 'square'},
+                {category: 'triangle'},
             ];
     }
 
@@ -113,34 +106,18 @@ export class DiagramEditorComponent implements OnInit {
         this.palette.div = this.paletteRef.nativeElement;
     }
 
-    onSave() {
+    onPublish() {
         const img = this.diagram.makeImageData({
             scale: 1,
-            background: "AntiqueWhite",
-            type: "image/jpeg"
+            background: 'AntiqueWhite',
+            type: 'image/jpeg'
         });
 
-        this._dataService.saveDiagram(img).subscribe(res => {
+        this.dataService.saveDiagram(img).subscribe(res => {
             console.log(`%c SAVED on server`, 'background: #222; color: #bada55');
         }, err => {
             console.log(`%c Error while saving`, 'background: #222; color: #bada55');
         });
 
-    }
-
-    onLoad() {
-        this._dataService.getDiagram('test').subscribe(res => {
-            const reader = new FileReader();
-
-            // This fires after the blob has been read/loaded.
-            reader.addEventListener('loadend', (e) => {
-                this.image = e.srcElement.result;
-            });
-
-            // Start reading the blob as text.
-            reader.readAsText(res);
-        }, err => {
-            console.log(`%c Error while saving`, 'background: #222; color: #bada55');
-        });
     }
 }

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ContentLayoutComponent } from './layout/content-layout/content-layout.component';
-import {DrawerComponent} from "./layout/drawer/drawer.component";
+import {DrawerComponent} from './layout/drawer/drawer.component';
+import {ViewerComponent} from './layout/viewer/viewer.component';
 
 
 const routes: Routes = [
@@ -13,6 +13,10 @@ const routes: Routes = [
   {
     path: 'drawer',
     component: DrawerComponent
+  },
+  {
+    path: 'viewer/:id',
+    component: ViewerComponent
   },
 ];
 

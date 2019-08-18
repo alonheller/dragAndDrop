@@ -1,0 +1,5 @@
+<div>
+    <app-header [title]="'Diagram viewer'" [showButtons]="false"></app-header>
+    <mat-spinner *ngIf="loading"></mat-spinner>
+    <app-img-viewer *ngIf="!loading" [image]="image"></app-img-viewer>
+</div>

@@ -23,7 +23,8 @@ router.get('/api/diagrams/:diagramId', function (req, res) {
 
 router.post('/api/diagrams', function (req, res) {
   const base64Data = req.body.image.replace(/^data:image\/jpeg;base64,/, "");
-  const fileName = uuidv1() + ".jpeg";
+  const uuid = uuidv1();
+  const fileName = uuid + ".jpeg";
 
   fs.writeFile(path + fileName, base64Data, 'base64', err => {
     if (err) {
@@ -31,7 +32,7 @@ router.post('/api/diagrams', function (req, res) {
       return;
     }
     console.log("file saved: " + fileName);
-    res.send("File write success");
+    res.send({id: uuid, message: "File write success"});
   });
 });
 
