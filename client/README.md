@@ -8,10 +8,11 @@ delete shape & connection
 pointer icon when dragging
 
 
+https://ej2.syncfusion.com/angular/demos/?_ga=2.23106618.103528940.1566130791-1836612638.1566130791#/material/diagram/default-functionalities
 
+https://swimlane.github.io/ngx-graph/#custom-templates#node-template
 
-
-
+https://github.com/NorthwoodsSoftware/GoJS-projects/tree/master/angular-basic
 
 
 

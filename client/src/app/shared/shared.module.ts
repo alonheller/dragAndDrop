@@ -7,15 +7,16 @@ import { ShapeComponent } from './shape/shape.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatButtonModule } from "@angular/material";
+import { DiagramEditorComponent } from './diagram-editor/diagram-editor.component';
 
 @NgModule({
-  declarations: [HeaderComponent, ToolboxComponent, StageComponent, ShapeComponent],
+  declarations: [HeaderComponent, ToolboxComponent, StageComponent, ShapeComponent, DiagramEditorComponent],
   imports: [
     CommonModule,
     BrowserAnimationsModule,
     MatButtonModule,
     DragDropModule
   ],
-  exports: [HeaderComponent, ToolboxComponent, StageComponent, ShapeComponent]
+  exports: [HeaderComponent, ToolboxComponent, StageComponent, ShapeComponent, DiagramEditorComponent]
 })
 export class SharedModule { }
